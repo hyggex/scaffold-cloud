@@ -76,6 +76,11 @@
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <!-- Knife4j API 文档 -->
+        <dependency>
+            <groupId>com.baizhukui</groupId>
+            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

@@ -1,24 +1,71 @@
 # =============================================================
 # Nacos 配置：数据源配置
-# 包含 MySQL、Redis 的连接信息
+# 使用 Druid 连接池（阿里巴巴）
 # =============================================================
 
-# ------------------------------
-# MySQL 数据源配置
-# ------------------------------
 spring:
+  # ------------------------------
+  # 数据源基础配置
+  # 注意：需指定 type 为 DruidDataSource，否则 Spring Boot 默认使用 HikariCP
+  # ------------------------------
   datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:scaffold}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&zeroDateTimeBehavior=convertToNull
     username: ${MYSQL_USER:root}
     password: ${MYSQL_PASSWORD:root123}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      minimum-idle: 5
-      maximum-pool-size: 20
-      idle-timeout: 600000
-      max-lifetime: 1800000
-      connection-timeout: 30000
-      pool-name: ScaffoldHikariCP
+
+  # ------------------------------
+  # Druid 连接池配置
+  # ------------------------------
+    druid:
+      # 初始连接数（启动时建立多少个连接）
+      initial-size: 5
+      # 最小空闲连接数（池中保留的最小空闲连接数）
+      min-idle: 5
+      # 最大活跃连接数（同时使用的最大连接数）
+      max-active: 20
+      # 获取连接时最大等待时间（毫秒），-1 表示无限等待
+      max-wait: 60000
+      # 连接泄漏检测：超过 time-between-eviction-runs-millis 时间后进行空闲连接检测
+      time-between-eviction-runs-millis: 60000
+      # 连接最小生存时间（毫秒），超时将回收
+      min-evictable-idle-time-millis: 300000
+      # 验证连接可用性：SELECT 1
+      validation-query: SELECT 1
+      # 取出连接时检测（性能较差，建议关闭）
+      test-on-borrow: false
+      # 归还连接时检测
+      test-on-return: false
+      # 空闲时检测（建议开启，配合 min-idle）
+      test-while-idle: true
+      # 是否缓存 PreparedStatement（MySQL 建议关闭）
+      pool-prepared-statements: false
+      # 每个连接最大 PreparedStatement 缓存数
+      max-pool-prepared-statement-per-connection-size: -1
+      # 连接属性（开启密码加密、合并 SQL 等）
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;config.decrypt=false
+      # Druid 内置监控页面（访问 /druid/*）
+      web-stat-filter:
+        enabled: true
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      stat-view-servlet:
+        enabled: true
+        # 监控页面登录账号
+        login-username: admin
+        # 监控页面登录密码
+        login-password: druid123
+        # 允许所有 IP 访问
+        allow: ""
+        # 禁用 HTML 页面 Reset 功能
+        reset-enable: false
+      # 慢 SQL 记录配置
+      filter:
+        stat:
+          enabled: true
+          # 慢 SQL 阈值（毫秒）
+          slow-sql-millis: 5000
+          log-slow-sql: true
 
   # ------------------------------
   # Redis 配置

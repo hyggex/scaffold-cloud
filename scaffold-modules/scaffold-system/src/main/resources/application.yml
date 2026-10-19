@@ -33,10 +33,31 @@ spring:
       - optional:nacos:datasource.yml
       - optional:nacos:scaffold-system.yml
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:scaffold}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
-    username: ${MYSQL_USER:root}
-    password: ${MYSQL_PASSWORD:root}
+    type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:scaffold}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&zeroDateTimeBehavior=convertToNull
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:root123}
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      web-stat-filter:
+        enabled: true
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      stat-view-servlet:
+        enabled: true
+        login-username: admin
+        login-password: druid123
+        allow: ""
+        reset-enable: false
   data:
     redis:
       host: ${REDIS_HOST:localhost}
@@ -72,6 +93,16 @@ sa-token:
   is-regex: true
   is-read-cookie: false
   is-read-header: true
+
+# XSS 攻击防护配置
+scaffold:
+  security:
+    xss:
+      enabled: true
+      mode: escape
+      exclude-urls:
+        - /auth/login
+        - /auth/logout
 
 # Dubbo 配置（注册到 Nacos）
 dubbo:
@@ -120,3 +151,33 @@ redisson:
     idleConnectionTimeout: 10000
     timeout: 3000
     subscriptionConnectionPoolSize: 50
+
+# =============================================================
+# Knife4j / Swagger3 API 文档配置
+# 访问地址：http://localhost:9201/doc.html
+# =============================================================
+knife4j:
+  enable: true
+  basic:
+    enable: false
+    username: admin
+    password: admin123
+  setting:
+    language: zh_cn
+    footer-enabled: true
+    footer: Scaffold 微服务框架
+    doc-title: 系统服务 API 文档
+
+springdoc:
+  api-docs:
+    enabled: true
+    title: 系统服务 API 接口文档
+    description: |
+      ## 接口调用说明
+      1. 请先通过 POST /auth/login 登录获取 Token
+      2. 在请求 Header 中添加 Authorization: <Token> 认证
+      3. 有权限控制的接口需携带有效 Token 才能访问
+    version: 1.0.0
+  swagger-ui:
+    enabled: true
+    display-request-duration: true

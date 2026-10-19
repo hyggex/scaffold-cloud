@@ -54,62 +54,75 @@ VALUES (
   'DEFAULT_GROUP',
   '# =============================================================
 # Nacos 公共配置
+# 导入方式：Nacos 控制台 -> 配置管理 -> 配置导入 -> 选择此文件
 # =============================================================
 
-# Sa-Token 全局配置
-sa-token:
-  token-name: Authorization
-  timeout: 86400
-  active-timeout: -1
-  is-concurrent: true
-  is-share: false
-  is-read-cookie: false
-  is-read-header: true
-  is-regex: true
-  token-style: uuid
-  is-log: false
+# Server 基础配置
+server:
+  undertow:
+    max-http-post-size: -1
+    buffer-size: 512
+    direct-buffers: true
+    threads:
+      io: 8
+      worker: 256
 
-# 日志级别配置
-logging:
-  level:
-    root: info
-    com.scaffold: debug
-    com.baomidou.mybatisplus: warn
-    org.springframework: warn
-  pattern:
-    console: ''%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method,%line] - %msg%n'''
-  ',
-  'yaml',
-  NOW(),
-  NOW(),
-  '公共配置：Sa-Token + 日志级别'
-);
+# Dubbo RPC 配置
+dubbo:
+  application:
+    qos-enable: false
+  protocol:
+    name: dubbo
+    port: -1
+    payload: 104857600
+    threads: 500
+    accepts: 3000
+    host: ${spring.cloud.client.ip-address}
+  registry:
+    address: nacos://${spring.cloud.nacos.discovery.server-addr:localhost:8848}
+    group: DUBBO_GROUP
+    username: ${spring.cloud.nacos.discovery.username:nacos}
+    password: ${spring.cloud.nacos.discovery.password:nacos}
+    parameters:
+      namespace: ${spring.cloud.nacos.discovery.namespace:}
+    timeout: 5000
+    register: true
+    subscribe: true
+  provider:
+    preferred-networks: ${DUBBO_PREFERRED_NETWORKS:}
+  consumer:
+    timeout: 60000
+  scan:
+    base-packages: com.scaffold.**.dubbo
+  custom:
+    request-log: true
+    log-level: info
 
--- ----------------------------
--- 数据源配置：datasource.yml
--- ----------------------------
-INSERT INTO `config_info` (`data_id`, `group_id`, `content`, `type`, `gmt_create`, `gmt_modified`, `c_desc`)
-VALUES (
-  'datasource.yml',
-  'DEFAULT_GROUP',
-  '# =============================================================
-# Nacos 数据源配置
-# =============================================================
-
+# Spring 线程池配置
 spring:
-  datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:scaffold}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&zeroDateTimeBehavior=convertToNull
-    username: ${MYSQL_USER:root}
-    password: ${MYSQL_PASSWORD:root123}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      minimum-idle: 5
-      maximum-pool-size: 20
-      idle-timeout: 600000
-      max-lifetime: 1800000
-      connection-timeout: 30000
-      pool-name: ScaffoldHikariCP
-
+  threads:
+    virtual:
+      enabled: false
+  task:
+    execution:
+      thread-name-prefix: async-
+      mode: force
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 500MB
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      indent-output: false
+      fail-on-empty-beans: false
+    deserialization:
+      fail-on-unknown-properties: false
+  cloud:
+    nacos:
+      discovery:
+        metadata:
+          version: ''1.0''
   data:
     redis:
       host: ${REDIS_HOST:localhost}
@@ -126,22 +139,138 @@ spring:
       ssl:
         enabled: false
 
+# Redisson 缓存配置
+redisson:
+  keyPrefix: ${spring.application.name:}
+  threads: 4
+  nettyThreads: 8
+  singleServerConfig:
+    clientName: ${spring.application.name:}
+    connectionMinimumIdleSize: 8
+    connectionPoolSize: 32
+    idleConnectionTimeout: 10000
+    timeout: 3000
+    subscriptionConnectionPoolSize: 50
+
+# 分布式锁全局配置
+lock4j:
+  acquire-timeout: 3000
+  expire: 30000
+
+# 暴露监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ''*''
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+# Sa-Token 全局配置
+sa-token:
+  token-name: Authorization
+  is-concurrent: true
+  is-share: false
+  timeout: 86400
+  active-timeout: -1
+  is-read-cookie: false
+  is-read-header: true
+  is-regex: true
+  token-style: uuid
+  is-log: false
+
+# XSS 攻击防护配置
+scaffold:
+  security:
+    xss:
+      enabled: true
+      mode: escape
+      exclude-urls:
+        - /auth/login
+        - /auth/logout
+
+# MyBatis-Plus 全局配置
 mybatis-plus:
+  enableLogicDelete: true
+  mapperPackage: com.scaffold.**.mapper
+  typeAliasesPackage: com.scaffold.**.domain.entity
   global-config:
-    db-config:
-      id-type: assign_id
-      logic-delete-field: delFlag
-      logic-delete-value: "1"
-      logic-not-delete-value: "0"
-      db-type: mysql
-  configuration:
-    map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    dbConfig:
+      idType: ASSIGN_ID
+      logicDeleteValue: "1"
+      logicNotDeleteValue: "0"
+
+# 日志配置
+logging:
+  level:
+    root: info
+    com.scaffold: debug
+    com.baomidou.mybatisplus: warn
+    org.springframework: warn
+    org.apache.dubbo: warn
+    com.alibaba.nacos: warn
+  pattern:
+    console: ''%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%method,%line] - %msg%n'''
   ',
   'yaml',
   NOW(),
   NOW(),
-  '数据源配置：MySQL + Redis'
+  '公共配置：Server + Dubbo + Redis + Sa-Token + XSS + MyBatis-Plus'
+);
+
+-- ----------------------------
+-- 数据源配置：datasource.yml
+-- ----------------------------
+INSERT INTO `config_info` (`data_id`, `group_id`, `content`, `type`, `gmt_create`, `gmt_modified`, `c_desc`)
+VALUES (
+  'datasource.yml',
+  'DEFAULT_GROUP',
+  '# =============================================================
+# Nacos 数据源配置
+# 使用 Druid 连接池（阿里巴巴）
+# =============================================================
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:scaffold}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&zeroDateTimeBehavior=convertToNull
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:root123}
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: false
+      max-pool-prepared-statement-per-connection-size: -1
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      web-stat-filter:
+        enabled: true
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      stat-view-servlet:
+        enabled: true
+        login-username: admin
+        login-password: druid123
+        allow: ""
+        reset-enable: false
+      filter:
+        stat:
+          enabled: true
+          slow-sql-millis: 5000
+          log-slow-sql: true
+  ',
+  'yaml',
+  NOW(),
+  NOW(),
+  '数据源配置：MySQL Druid 连接池'
 );
 
 -- ----------------------------

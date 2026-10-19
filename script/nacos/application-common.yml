@@ -1,25 +1,230 @@
 # =============================================================
-# Nacos 配置：公共配置
+# Nacos 公共配置
 # 导入方式：Nacos 控制台 -> 配置管理 -> 配置导入 -> 选择此文件
+# 命名空间：public，Group：DEFAULT_GROUP
 # =============================================================
+
+# ------------------------------
+# Server 基础配置
+# ------------------------------
+server:
+  undertow:
+    # HTTP POST 内容最大大小（-1=无限）
+    max-http-post-size: -1
+    # 每块 buffer 空间大小，越小空间利用越充分
+    buffer-size: 512
+    # 是否分配直接内存
+    direct-buffers: true
+    threads:
+      # IO 线程数（默认每个 CPU 核心一个线程）
+      io: 8
+      # 阻塞任务线程池大小
+      worker: 256
+
+# ------------------------------
+# Dubbo RPC 配置
+# ------------------------------
+dubbo:
+  application:
+    # 关闭 QoS 端口，避免单机多生产者端口冲突
+    qos-enable: false
+  protocol:
+    # 使用 dubbo 协议通信
+    name: dubbo
+    # dubbo 协议端口（-1 表示自增，从 20880 开始）
+    port: -1
+    payload: 104857600
+    threads: 500
+    accepts: 3000
+    host: ${spring.cloud.client.ip-address}
+  registry:
+    # 注册中心地址，使用 Nacos
+    address: nacos://${spring.cloud.nacos.discovery.server-addr:localhost:8848}
+    group: DUBBO_GROUP
+    username: ${spring.cloud.nacos.discovery.username:nacos}
+    password: ${spring.cloud.nacos.discovery.password:nacos}
+    parameters:
+      namespace: ${spring.cloud.nacos.discovery.namespace:}
+    timeout: 5000
+    register: true
+    subscribe: true
+  provider:
+    # 生产者偏好网段（根据实际环境修改，如 192.168.1）
+    preferred-networks: ${DUBBO_PREFERRED_NETWORKS:}
+  # 消费者配置
+  consumer:
+    timeout: 60000
+  # 扫描 Dubbo 注解的包路径
+  scan:
+    base-packages: com.scaffold.**.dubbo
+  # 自定义配置
+  custom:
+    # 全局请求日志
+    request-log: true
+    # 日志级别：info 基础信息，param 参数信息，full 全部
+    log-level: info
+
+# ------------------------------
+# Spring 线程池配置
+# ------------------------------
+spring:
+  threads:
+    virtual:
+      # 开启虚拟线程（仅 JDK 21 可用）
+      enabled: false
+  task:
+    execution:
+      thread-name-prefix: async-
+      # 由 Spring 自己初始化线程池（Spring Boot 3.5+）
+      mode: force
+
+  # Servlet 上传配置
+  servlet:
+    multipart:
+      # 上传单个文件大小限制
+      max-file-size: 100MB
+      # 整个请求大小限制
+      max-request-size: 500MB
+
+  # Jackson 日期时间序列化配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      # 格式化输出
+      indent-output: false
+      # 忽略无法转换的对象
+      fail-on-empty-beans: false
+    deserialization:
+      # 允许 JSON 中存在对象没有的属性
+      fail-on-unknown-properties: false
+
+  cloud:
+    nacos:
+      discovery:
+        metadata:
+          # Nacos 元数据（可扩展）
+          version: '1.0'
+
+  # Redis 通用配置（子服务可自行覆盖）
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      database: ${REDIS_DB:0}
+      timeout: 10000ms
+      lettuce:
+        pool:
+          max-active: 20
+          max-idle: 10
+          min-idle: 5
+          max-wait: -1ms
+      ssl:
+        enabled: false
+
+# ------------------------------
+# Redisson 缓存配置
+# ------------------------------
+redisson:
+  # Redis key 前缀
+  keyPrefix: ${spring.application.name:}
+  # 线程池数量
+  threads: 4
+  # Netty 线程池数量
+  nettyThreads: 8
+  # 单节点配置
+  singleServerConfig:
+    clientName: ${spring.application.name:}
+    # 最小空闲连接数
+    connectionMinimumIdleSize: 8
+    # 连接池大小
+    connectionPoolSize: 32
+    # 连接空闲超时（毫秒）
+    idleConnectionTimeout: 10000
+    # 命令等待超时（毫秒）
+    timeout: 3000
+    # 发布和订阅连接池大小
+    subscriptionConnectionPoolSize: 50
+
+# ------------------------------
+# 分布式锁全局配置（基于 lock4j）
+# ------------------------------
+lock4j:
+  # 获取分布式锁超时时间（毫秒）
+  acquire-timeout: 3000
+  # 分布式锁超时时间（毫秒）
+  expire: 30000
+
+# ------------------------------
+# 暴露监控端点
+# ------------------------------
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
 
 # ------------------------------
 # Sa-Token 全局配置
 # ------------------------------
 sa-token:
   token-name: Authorization
-  timeout: 86400
-  active-timeout: -1
+  # 是否开启同一账号并发登录（true=允许，false=新登录挤掉旧登录）
   is-concurrent: true
+  # 多人登录同一账号时是否共用 token（true=共用，false=每次新建）
   is-share: false
+  # token 超时时间（秒）
+  timeout: 86400
+  # token 活跃超时（秒，-1 不限制）
+  active-timeout: -1
+  # 是否从 Cookie 读取 token
   is-read-cookie: false
+  # 是否从 Header 读取 token
   is-read-header: true
+  # 是否开启 token 唯一（单登录模式）
   is-regex: true
+  # token 风格：uuid / uuid-simple / naive / simple-token / tianai-token
   token-style: uuid
+  # 是否输出日志
   is-log: false
 
 # ------------------------------
-# 日志级别配置
+# XSS 攻击防护配置
+# ------------------------------
+scaffold:
+  security:
+    xss:
+      enabled: true
+      # 过滤模式：escape=转义（普通文本），filter=移除危险标签（富文本）
+      mode: escape
+      exclude-urls:
+        - /auth/login
+        - /auth/logout
+
+# ------------------------------
+# MyBatis-Plus 全局配置
+# ------------------------------
+mybatis-plus:
+  # 自定义配置：是否全局开启逻辑删除
+  enableLogicDelete: true
+  # Mapper 接口包路径
+  mapperPackage: com.scaffold.**.mapper
+  # 实体包路径
+  typeAliasesPackage: com.scaffold.**.domain.entity
+  global-config:
+    dbConfig:
+      # 主键策略：ASSIGN_ID=雪花，AUTO=自增，INPUT=用户输入
+      idType: ASSIGN_ID
+      # 逻辑删除���段值
+      logicDeleteValue: "1"
+      # 逻辑未删除字段值
+      logicNotDeleteValue: "0"
+
+# ------------------------------
+# 日志配置
 # ------------------------------
 logging:
   level:
@@ -27,5 +232,52 @@ logging:
     com.scaffold: debug
     com.baomidou.mybatisplus: warn
     org.springframework: warn
+    org.apache.dubbo: warn
+    com.alibaba.nacos: warn
   pattern:
-    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method,%line] - %msg%n'
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%method,%line] - %msg%n'
+
+# ------------------------------
+# Knife4j / Swagger3 API 文档配置
+# ------------------------------
+knife4j:
+  # 启用增强模式（需要 knife4j-openapi3-jakarta-spring-boot-starter）
+  enable: true
+  # 文档分组
+  documents:
+    - group: 系统接口
+      locations: classpath:META-INF/resources/springdoc-openapi-docusaurus.json
+  # 基础设置
+  basic:
+    # 是否开启认证（生产环境建议开启）
+    enable: false
+    username: admin
+    password: admin123
+  # OpenAPI 文档设置
+  setting:
+    language: zh_cn
+    footer-enabled: true
+    footer: Scaffold 微服务框架 - 基于 Spring Boot 3 + Nacos
+    doc-title: Scaffold API 接口文档
+    doc-version: 1.0.0
+
+# springdoc-openapi 配置（Knife4j 底层依赖）
+springdoc:
+  api-docs:
+    enabled: true
+    # 文档标题
+    title: Scaffold API 接口文档
+    description: 基于 Spring Boot 3 + Spring Cloud Alibaba 的微服务接口文档
+    version: 1.0.0
+    group-configs:
+      - group: '1'
+        paths: com.scaffold.**
+        packages-to-scan: com.scaffold.**
+  swagger-ui:
+    enabled: true
+    # 文档排序
+    tags-sorter: alpha
+    operations-sorter: alpha
+    # 显示分组
+    display-request-duration: true
+  show-actuator: false

@@ -1,2 +1,50 @@
-<?xml version="1.0" encoding="UTF-8"?><!-- scaffold-common-mybatis：MyBatis-Plus 公共配置，统一 MapperScan -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"><modelVersion>4.0.0</modelVersion><parent><groupId>com.scaffold</groupId><artifactId>scaffold-common</artifactId><version>1.0.0-SNAPSHOT</version></parent><artifactId>scaffold-common-mybatis</artifactId><dependencies><dependency><groupId>org.projectlombok</groupId><artifactId>lombok</artifactId><optional>true</optional></dependency><dependency><groupId>com.baomidou</groupId><artifactId>mybatis-plus-spring-boot3-starter</artifactId></dependency><dependency><groupId>com.baomidou</groupId><artifactId>mybatis-plus-jsqlparser</artifactId><version>${mybatis-plus.version}</version></dependency><dependency><groupId>com.scaffold</groupId><artifactId>scaffold-common-core</artifactId><version>${project.version}</version></dependency><dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-web</artifactId></dependency><dependency><groupId>com.fasterxml.jackson.datatype</groupId><artifactId>jackson-datatype-jsr310</artifactId></dependency></dependencies></project>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- scaffold-common-mybatis：MyBatis-Plus 公共配置，统一 MapperScan -->
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.scaffold</groupId>
+        <artifactId>scaffold-common</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>scaffold-common-mybatis</artifactId>
+    <dependencies>
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- MyBatis-Plus -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-jsqlparser</artifactId>
+            <version>${mybatis-plus.version}</version>
+        </dependency>
+        <!-- 核心模块 -->
+        <dependency>
+            <groupId>com.scaffold</groupId>
+            <artifactId>scaffold-common-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- Spring Boot Web（包含 jakarta.servlet-api，供 Druid 监控使用） -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- Jackson JSR310（Java 8 日期时间支持） -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+        <!-- Druid 连接池（阿里巴巴） -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-3-starter</artifactId>
+        </dependency>
+    </dependencies>
+</project>
