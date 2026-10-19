@@ -16,7 +16,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
  *   <li>OpenAPI JSON：http://host:port/v3/api-docs</li>
  * </ul>
  *
- * @author scaffold
+ *  @author 8800
  */
 @Slf4j
 @AutoConfiguration

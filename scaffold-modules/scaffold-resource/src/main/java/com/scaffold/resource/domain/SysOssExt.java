@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 文件扩展信息（存储在 sys_oss.ext1 JSON 字段中）
  *
- * @author Lion Li
+ * @author 8800
  */
 @Data
 public class SysOssExt implements Serializable {

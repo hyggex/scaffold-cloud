@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * 菜单权限 Service 接口
  *
- * @author scaffold
+ *  @author 8800
  */
 public interface MenuService extends IService<MenuEntity> {
 

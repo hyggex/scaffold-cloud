@@ -17,7 +17,7 @@ import java.nio.file.Paths;
  *
  * <p>提供文件下载、路径安全检查等功能。</p>
  *
- * @author scaffold
+ *  @author 8800
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * 日期工具类。
  *
- * @author Lion Li
+ * @author 8800
  */
 public class DateUtils {
 

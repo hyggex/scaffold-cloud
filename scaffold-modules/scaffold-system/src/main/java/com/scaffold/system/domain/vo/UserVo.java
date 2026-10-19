@@ -9,7 +9,7 @@ import java.io.Serial;
 /**
  * 用户视图对象。
  *
- * @author scaffold
+ *  @author 8800
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

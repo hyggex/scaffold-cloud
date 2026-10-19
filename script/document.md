@@ -140,8 +140,10 @@ mvn spring-boot:run
 
 | 服务 | 地址 |
 |------|------|
-| Knife4j 在线文档 | http://localhost:8080/doc.html |
+| 系统服务 API 文档 | http://localhost:9201/doc.html |
+| 文件服务 API 文档 | http://localhost:8082/doc.html |
 | Nacos 控制台 | http://localhost:8848/nacos |
+| MinIO 控制台 | http://localhost:9001 |
 
 ---
 
@@ -156,7 +158,7 @@ Content-Type: application/json
 
 {
   "username": "admin",
-  "password": "admin123"
+  "password": "admin"
 }
 ```
 

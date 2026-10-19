@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * 菜单权限 Mapper
  *
- * @author scaffold
+ *  @author 8800
  */
 public interface MenuMapper extends BaseMapper<MenuEntity> {
 

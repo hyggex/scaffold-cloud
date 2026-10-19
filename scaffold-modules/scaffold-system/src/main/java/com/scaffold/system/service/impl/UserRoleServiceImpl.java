@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * 用户角色关联 Service 实现
  *
- * @author scaffold
+ *  @author 8800
  */
 @Slf4j
 @Service
@@ -55,5 +55,15 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public int deleteByUserId(Long userId) {
         return userRoleMapper.deleteByUserId(userId);
+    }
+
+    @Override
+    public List<Long> selectUserIdsByRoleId(Long roleId) {
+        return userRoleMapper.selectList(
+            new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<SysUserRole>()
+                .eq(SysUserRole::getRoleId, roleId)
+        ).stream()
+            .map(SysUserRole::getUserId)
+            .collect(java.util.stream.Collectors.toList());
     }
 }

@@ -11,7 +11,7 @@ import java.io.Serial;
 /**
  * 业务异常（支持占位符 {}）
  *
- * @author Lion Li
+ * @author 8800
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

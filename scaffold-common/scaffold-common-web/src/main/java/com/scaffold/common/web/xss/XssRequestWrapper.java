@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
  *   <li>JSON 请求体（Content-Type 为 application/json）</li>
  * </ul>
  *
- * @author scaffold
+ *  @author 8800
  */
 @Slf4j
 public class XssRequestWrapper extends HttpServletRequestWrapper {

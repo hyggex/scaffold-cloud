@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * OSS 对象 VO
  *
- * @author Lion Li
+ * @author 8800
  */
 @Data
 @JsonInclude(JsonInclude.Include.NON_EMPTY)

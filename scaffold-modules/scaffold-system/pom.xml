@@ -38,6 +38,12 @@
             <artifactId>scaffold-common-dubbo</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- Dubbo API 接口（RPC 接口定义） -->
+        <dependency>
+            <groupId>com.scaffold</groupId>
+            <artifactId>scaffold-api-system</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.scaffold</groupId>
             <artifactId>scaffold-common-log</artifactId>

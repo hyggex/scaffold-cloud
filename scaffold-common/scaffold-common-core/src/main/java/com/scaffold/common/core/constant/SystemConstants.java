@@ -3,7 +3,7 @@ package com.scaffold.common.core.constant;
 /**
  * 系统常量
  *
- * @author Lion Li
+ * @author 8800
  */
 public interface SystemConstants {
 

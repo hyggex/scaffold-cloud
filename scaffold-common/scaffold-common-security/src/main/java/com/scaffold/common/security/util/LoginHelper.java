@@ -1,5 +1,6 @@
 package com.scaffold.common.security.util;
 
+import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -32,7 +33,7 @@ import java.util.Set;
  * boolean hasPerms = LoginHelper.hasPermission("system:user:list");
  * </pre>
  *
- * @author Lion Li
+ * @author 8800
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LoginHelper {
@@ -132,6 +133,31 @@ public class LoginHelper {
     }
 
     /**
+     * 根据 Token 获取登录用户信息（用于 Dubbo RPC 远程调���）。
+     *
+     * @param token 认证 Token
+     * @return LoginUser 对象，Token 无效返回 null
+     */
+    public static LoginUser getLoginUser(String token) {
+        if (token == null || token.isBlank()) {
+            return null;
+        }
+        try {
+            // 验证 Token 是否有效
+            Boolean isLogin = (Boolean) StpUtil.isLogin(token);
+            if (isLogin == null || !isLogin) {
+                return null;
+            }
+            Object loginId = StpUtil.getLoginIdByToken(token);
+            // 获取会话并获取 LoginUser
+            SaSession session = StpUtil.getSessionByLoginId(loginId);
+            return (LoginUser) session.get(LOGIN_USER_KEY);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
      * 获取当前登录用户信息，如果未登录则抛出异常。
      *
      * @return LoginUser 对象
@@ -175,6 +201,56 @@ public class LoginHelper {
     public static boolean hasPermission(String permission) {
         LoginUser loginUser = getLoginUser();
         return loginUser != null && loginUser.hasPermission(permission);
+    }
+
+    /**
+     * 判断指定用户是否拥有指定角色（用于 Dubbo RPC 远程调用）。
+     *
+     * @param userId   用户ID
+     * @param roleKey 角色 key
+     * @return 是否拥有该角色
+     */
+    public static boolean hasRole(Long userId, String roleKey) {
+        if (userId == null || roleKey == null) {
+            return false;
+        }
+        // 超级管理员拥有所有角色
+        if (userId == 1L) {
+            return true;
+        }
+        // 此方法需要在 Dubbo 调用时由调用方传入用户完整信息
+        // 这里仅做基础判断，具体逻辑由调用方处理
+        return false;
+    }
+
+    /**
+     * 判断指定用户是否拥有指定权限（用于 Dubbo RPC 远程调用）。
+     *
+     * @param userId      用户ID
+     * @param permission 权限标识
+     * @return 是否拥有该权限
+     */
+    public static boolean hasPermission(Long userId, String permission) {
+        if (userId == null || permission == null) {
+            return false;
+        }
+        // 超级管理员拥有所有权限
+        if (userId == 1L) {
+            return true;
+        }
+        // 此方法需要在 Dubbo 调用时由调用方传入用户完整信息
+        // 这里仅做基础判断，具体逻辑由调用方处理
+        return false;
+    }
+
+    /**
+     * 判断指定用户是否为超级管理员。
+     *
+     * @param userId 用户ID
+     * @return 是否超级管理员
+     */
+    public static boolean isSuperAdmin(Long userId) {
+        return userId != null && userId == 1L;
     }
 
     /**

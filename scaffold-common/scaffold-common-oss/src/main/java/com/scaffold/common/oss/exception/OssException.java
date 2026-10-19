@@ -3,7 +3,7 @@ package com.scaffold.common.oss.exception;
 /**
  * OSS 异常
  *
- * @author Lion Li
+ * @author 8800
  */
 public class OssException extends RuntimeException {
 

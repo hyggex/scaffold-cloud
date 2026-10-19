@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * 角色管理 Service 接口
  *
- * @author scaffold
+ *  @author 8800
  */
 public interface RoleService extends IService<RoleEntity> {
 

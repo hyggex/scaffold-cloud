@@ -3,7 +3,7 @@ package com.scaffold.common.core.constant;
 /**
  * 缓存名称常量
  *
- * @author Lion Li
+ * @author 8800
  */
 public interface CacheNames {
 
@@ -33,4 +33,10 @@ public interface CacheNames {
 
     /** 字典缓存 */
     String SYS_DICT = "sys_dict";
+
+    /** 字典类型缓存 */
+    String SYS_DICT_TYPE = "sys_dict_type";
+
+    /** 字典数据缓存 */
+    String SYS_DICT_DATA = "sys_dict_data";
 }

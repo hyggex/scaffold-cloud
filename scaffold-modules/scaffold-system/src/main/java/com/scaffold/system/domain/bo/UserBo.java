@@ -13,7 +13,7 @@ import java.io.Serial;
 /**
  * 用户业务对象。
  *
- * @author scaffold
+ *  @author 8800
  */
 @Data
 @NoArgsConstructor

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 /**
  * 菜单权限 Service 实现
  *
- * @author scaffold
+ *  @author 8800
  */
 @Slf4j
 @Service

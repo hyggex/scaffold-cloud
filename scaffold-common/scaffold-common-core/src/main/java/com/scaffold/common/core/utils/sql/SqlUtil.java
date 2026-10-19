@@ -7,7 +7,7 @@ import com.scaffold.common.core.utils.StringUtils;
 /**
  * SQL 操作工具类
  *
- * @author Lion Li
+ * @author 8800
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SqlUtil {

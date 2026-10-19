@@ -13,7 +13,7 @@ import java.util.Set;
  * <p>包含用户基本信息、所属部门、角色、权限等，用于在请求上下文中传递已登录用户完整信息。
  * 登录时由 AuthServiceImpl 创建并存入 Sa-Token Session。</p>
  *
- * @author scaffold
+ *  @author 8800
  */
 @Data
 @NoArgsConstructor

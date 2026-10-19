@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * MinIO 对象存储配置属性
  *
- * @author Lion Li
+ * @author 8800
  */
 @Data
 @ConfigurationProperties(prefix = "oss.minio")

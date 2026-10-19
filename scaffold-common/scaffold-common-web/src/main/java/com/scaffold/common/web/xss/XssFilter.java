@@ -23,7 +23,7 @@ import java.io.IOException;
  *
  * <p>使用方法：在 {@link WebConfiguration} 中注册此 Filter，并注入 {@link XssProperties} 配置。</p>
  *
- * @author scaffold
+ *  @author 8800
  * @see XssRequestWrapper
  * @see XssProperties
  */

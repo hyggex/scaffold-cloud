@@ -12,7 +12,7 @@ import java.io.Serial;
 /**
  * 菜单权限业务对象。
  *
- * @author scaffold
+ *  @author 8800
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * 文件上传返回 VO
  *
- * @author Lion Li
+ * @author 8800
  */
 @Data
 public class SysOssUploadVo {

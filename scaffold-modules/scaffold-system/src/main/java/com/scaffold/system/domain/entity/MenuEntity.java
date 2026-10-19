@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 菜单权限实体。
  *
- * @author scaffold
+ *  @author 8800
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

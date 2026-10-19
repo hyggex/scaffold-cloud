@@ -12,7 +12,7 @@ import java.io.Serializable;
  *
  * <p>对应表：sys_role_menu</p>
  *
- * @author scaffold
+ *  @author 8800
  */
 @Data
 @NoArgsConstructor

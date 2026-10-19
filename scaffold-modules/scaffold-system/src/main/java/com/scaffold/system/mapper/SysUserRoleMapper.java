@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 用户角色关联 Mapper
  *
- * @author scaffold
+ *  @author 8800
  */
 public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
 
@@ -27,4 +27,9 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
      * 根据角色 ID 删除角色用户关联。
      */
     int deleteByRoleId(@Param("roleId") Long roleId);
+
+    /**
+     * 根据角色 ID 查询用户 ID 列表。
+     */
+    List<Long> selectUserIdsByRoleId(@Param("roleId") Long roleId);
 }

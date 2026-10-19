@@ -3,7 +3,7 @@ package com.scaffold.common.log.enums;
 /**
  * 业务操作类型
  *
- * @author Lion Li
+ * @author 8800
  */
 public enum BusinessType {
     /**

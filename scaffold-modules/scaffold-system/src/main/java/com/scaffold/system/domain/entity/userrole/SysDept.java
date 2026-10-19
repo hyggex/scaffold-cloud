@@ -14,7 +14,7 @@ import java.util.List;
  *
  * <p>对应表：sys_dept</p>
  *
- * @author scaffold
+ *  @author 8800
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

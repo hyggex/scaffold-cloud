@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 /**
  * 部门 Mapper
  *
- * @author scaffold
+ *  @author 8800
  */
 public interface SysDeptMapper extends BaseMapper<SysDept> {
 

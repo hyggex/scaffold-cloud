@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * MinIO 对象存储配置
  *
- * @author Lion Li
+ * @author 8800
  */
 @Slf4j
 @Configuration

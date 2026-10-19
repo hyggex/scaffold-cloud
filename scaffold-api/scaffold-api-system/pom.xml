@@ -1,2 +1,31 @@
-<?xml version="1.0" encoding="UTF-8"?><!-- scaffold-api-system：系统服务接口契约（Dubbo 接口定义、DTO、VO 等） -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"><modelVersion>4.0.0</modelVersion><parent><groupId>com.scaffold</groupId><artifactId>scaffold-api</artifactId><version>1.0.0-SNAPSHOT</version></parent><artifactId>scaffold-api-system</artifactId><dependencies><dependency><groupId>org.projectlombok</groupId><artifactId>lombok</artifactId><optional>true</optional></dependency></dependencies></project>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- scaffold-api-system：系统服务接口契约（Dubbo RPC 接口定义、DTO、VO 等） -->
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.scaffold</groupId>
+        <artifactId>scaffold-api</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>scaffold-api-system</artifactId>
+    <dependencies>
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- 序列化支持 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+        <!-- Dubbo 接口依赖（仅接口契约，不需要实现） -->
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-common</artifactId>
+            <version>${dubbo.version}</version>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+</project>

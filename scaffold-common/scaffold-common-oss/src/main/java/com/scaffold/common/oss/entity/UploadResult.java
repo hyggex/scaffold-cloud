@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * 文件上传结果
  *
- * @author Lion Li
+ * @author 8800
  */
 @Data
 public class UploadResult {

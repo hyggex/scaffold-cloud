@@ -11,7 +11,7 @@ import java.io.Serial;
 /**
  * OSS 对象存储实体
  *
- * @author Lion Li
+ * @author 8800
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

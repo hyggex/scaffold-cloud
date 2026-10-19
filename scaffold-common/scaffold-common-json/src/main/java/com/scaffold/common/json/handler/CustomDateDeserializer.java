@@ -15,7 +15,7 @@ import java.util.Date;
  *
  * <p>支持的格式：yyyy-MM-dd HH:mm:ss、yyyy-MM-dd、yyyy/MM/dd HH:mm:ss、yyyy/MM/dd</p>
  *
- * @author Lion Li
+ * @author 8800
  */
 public class CustomDateDeserializer extends JsonDeserializer<Date> {
 

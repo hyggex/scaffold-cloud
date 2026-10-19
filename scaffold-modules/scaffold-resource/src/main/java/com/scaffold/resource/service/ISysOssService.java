@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 文件上传 Service 接口
  *
- * @author Lion Li
+ * @author 8800
  */
 public interface ISysOssService {
 

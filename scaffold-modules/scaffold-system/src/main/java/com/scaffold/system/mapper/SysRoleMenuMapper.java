@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 角色菜单关联 Mapper
  *
- * @author scaffold
+ *  @author 8800
  */
 public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
 

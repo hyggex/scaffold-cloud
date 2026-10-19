@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 /**
  * 文件上传模块启动类
  *
- * @author Lion Li
+ * @author 8800
  */
 @EnableConfigurationProperties
 @MapperScan("com.scaffold.resource.mapper")

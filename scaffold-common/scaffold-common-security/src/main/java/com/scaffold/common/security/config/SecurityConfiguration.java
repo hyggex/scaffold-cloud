@@ -24,7 +24,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  *   <li>/swagger-ui/** — Swagger UI</li>
  * </ul>
  *
- * @author scaffold
+ *  @author 8800
  */
 @Configuration
 @EnableWebSecurity

@@ -33,7 +33,7 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
  * MyBatis-Plus 在处理所有 Lambda 列引用时都会调用此方法，
  * 因此只需设置一次 alias，所有条件自动生效。</p>
  *
- * @author Lion Li
+ * @author 8800
  * @param <T> 实体类型
  */
 public class AliasLambdaQueryWrapper<T> extends LambdaQueryWrapper<T> {

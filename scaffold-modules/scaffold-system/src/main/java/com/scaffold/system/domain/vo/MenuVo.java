@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 菜单权限视图对象。
  *
- * @author scaffold
+ *  @author 8800
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

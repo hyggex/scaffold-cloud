@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 /**
  * 用户实体。
  *
- * @author scaffold
+ *  @author 8800
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

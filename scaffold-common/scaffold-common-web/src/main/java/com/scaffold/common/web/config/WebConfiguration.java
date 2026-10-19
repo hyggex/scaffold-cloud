@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
  *   <li>XSS 攻击防护过滤器 {@link XssFilter}</li>
  * </ul>
  *
- * @author scaffold
+ *  @author 8800
  */
 @Configuration
 @ComponentScan("com.scaffold.common.web")

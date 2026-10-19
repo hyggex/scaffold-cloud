@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  *     .setName("new name");
  * </pre>
  *
- * @author Lion Li
+ * @author 8800
  */
 public class MapstructUtils {
 

@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * 角色 Mapper
  *
- * @author scaffold
+ *  @author 8800
  */
 public interface SysRoleMapper extends BaseMapper<RoleEntity> {
 

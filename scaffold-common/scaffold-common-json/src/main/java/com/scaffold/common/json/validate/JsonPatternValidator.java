@@ -8,7 +8,7 @@ import com.scaffold.common.json.utils.JsonUtils;
 /**
  * JSON 格式校验器
  *
- * @author Lion Li
+ * @author 8800
  */
 public class JsonPatternValidator implements ConstraintValidator<JsonPattern, String> {
 

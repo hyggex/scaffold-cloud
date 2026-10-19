@@ -21,7 +21,7 @@ import java.util.List;
  *         - /login
  * </pre>
  *
- * @author scaffold
+ *  @author 8800
  */
 @Data
 @ConfigurationProperties(prefix = "scaffold.security.xss")

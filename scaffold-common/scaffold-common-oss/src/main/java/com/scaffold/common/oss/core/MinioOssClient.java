@@ -37,7 +37,7 @@ import java.time.format.DateTimeFormatter;
  * 支持：MinIO、阿里云 OSS（需调整 endpoint 样式）
  * </p>
  *
- * @author Lion Li
+ * @author 8800
  */
 @Slf4j
 public class MinioOssClient {

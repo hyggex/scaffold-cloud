@@ -50,7 +50,9 @@ scaffold/
 
 ## 快速启动
 
-### 1. 启动基础设施
+> **注意**：首次运行需要完整执行以下步骤。之后日常启动只需从「步骤 3」开始。
+
+### 1. 启动基础设施（Docker）
 
 ```bash
 docker compose up -d
@@ -58,19 +60,35 @@ docker compose up -d
 
 启动 MySQL（3306）、Redis（6379）、MinIO（9000/9001）。
 
-### 2. 初始化数据库
+### 2. 初始化数据库（一次性）
 
 执行 `script/sql/scaffold.sql` 初始化数据库结构和预置数据。
 
-### 3. 启动 Nacos
+```bash
+mysql -uroot -p -e "CREATE DATABASE IF NOT EXISTS scaffold DEFAULT CHARACTER SET utf8mb4;"
+mysql -uroot -p scaffold < script/sql/scaffold.sql
+```
+
+### 3. 导入 Nacos 配置（一次性）
 
 ```bash
+# 启动 Nacos
 cd scaffold-nacos
 mvn clean package -DskipTests
-java -jar target/scaffold-nacos.jar
+java -jar target/scaffold-nacos.jar &
 ```
 
 访问 http://localhost:8848/nacos（账号：nacos / nacos）
+
+进入「配置管理」→「配置列表」→「导入配置」，依次导入 `script/nacos/` 下的 5 个 YAML 文件（Data ID 保持默认）：
+
+| Data ID | 说明 |
+|---------|------|
+| application-common.yml | 公共配置 |
+| datasource.yml | 数据源配置 |
+| scaffold-system.yml | 系统服务配置 |
+| scaffold-gateway.yml | 网关配置 |
+| scaffold-resource.yml | 文件服务配置 |
 
 ### 4. 启动业务服务
 
@@ -85,12 +103,17 @@ cd scaffold-modules/scaffold-resource && mvn spring-boot:run
 cd scaffold-gateway && mvn spring-boot:run
 ```
 
-### 5. 登录测试
+### 5. 验证部署
 
 ```bash
+# 登录测试（账号：admin / admin）
 curl -X POST http://localhost:8080/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"username":"admin","password":"admin123"}'
+  -d '{"username":"admin","password":"admin"}'
+
+# 访问 Knife4j API 文档
+# 系统服务：http://localhost:9201/doc.html
+# 文件服务：http://localhost:8082/doc.html
 ```
 
 ## 核心功能
@@ -147,6 +170,23 @@ qw.eq(User::getStatus, "0")   // -> u.status = '0'
 | Redis | 6379 |
 | MinIO API | 9000 |
 | MinIO Console | 9001 |
+
+## 常见问题
+
+### Q1: 启动报 "Unable to connect to Nacos"
+确保 Nacos 已启动：`cd scaffold-nacos && java -jar target/scaffold-nacos.jar`
+
+### Q2: 启动报 "Unable to connect to MySQL"
+确保 Docker 容器运行中：`docker compose ps`
+
+### Q3: 启动报 Redis 连接错误
+Docker 中的 Redis 没有密码，检查是否有多余的 Redis 密码配置
+
+### Q4: 登录失败，用户名密码错误
+确认账号为 `admin` / `admin`（不是 admin123）
+
+### Q5: 403 Forbidden
+接口权限不足，使用 admin 账号重新登录获取新 Token
 
 ## 文档
 

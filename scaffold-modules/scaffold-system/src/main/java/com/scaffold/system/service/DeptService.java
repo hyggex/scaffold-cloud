@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 部门管理 Service 接口
  *
- * @author scaffold
+ *  @author 8800
  */
 public interface DeptService extends IService<SysDept> {
 

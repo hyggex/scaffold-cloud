@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
  *   <li>{@link #filter(String)} - 彻底移除 script、onerror 等危险标签和属性，适用于富文本场景</li>
  * </ul>
  *
- * @author scaffold
+ *  @author 8800
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class XssUtils {

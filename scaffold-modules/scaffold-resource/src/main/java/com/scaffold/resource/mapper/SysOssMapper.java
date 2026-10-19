@@ -6,7 +6,7 @@ import com.scaffold.resource.domain.SysOss;
 /**
  * OSS 对象存储 Mapper
  *
- * @author Lion Li
+ * @author 8800
  */
 public interface SysOssMapper extends BaseMapper<SysOss> {
 }

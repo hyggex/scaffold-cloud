@@ -3,7 +3,7 @@ package com.scaffold.common.log.enums;
 /**
  * 操作人类别
  *
- * @author Lion Li
+ * @author 8800
  */
 public enum OperatorType {
     /**

@@ -30,7 +30,7 @@ import java.util.List;
  * ExcelUtils.exportExcel(userList, columns, response, "用户信息", "用户Sheet");
  * }</pre>
  *
- * @author scaffold
+ *  @author 8800
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -83,7 +83,11 @@ public class ExcelUtils {
             throw new RuntimeException("Excel 导出失败: " + e.getMessage(), e);
         } finally {
             workbook.dispose();
-            workbook.close();
+            try {
+                workbook.close();
+            } catch (IOException e) {
+                log.warn("关闭 Excel workbook 失败: {}", e.getMessage());
+            }
         }
     }
 

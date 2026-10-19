@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 /**
  * Stream 流处理工具类。
  *
- * @author Lion Li
+ * @author 8800
  */
 public class StreamUtils {
 

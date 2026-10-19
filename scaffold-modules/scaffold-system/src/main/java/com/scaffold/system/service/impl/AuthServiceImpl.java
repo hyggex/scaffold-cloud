@@ -34,7 +34,7 @@ import java.util.Set;
  * <p>支持用户名密码登录，登录成功后构建完整的 LoginUser 信息
  *（含用户基本信息、所属部门、角色列表、权限标识），并存入 Sa-Token Session。</p>
  *
- * @author scaffold
+ *  @author 8800
  */
 @Slf4j
 @Service

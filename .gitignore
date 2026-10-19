@@ -1,8 +1,56 @@
+# ================================================================
+# Git 忽略文件
+# ================================================================
+
+# 环境配置（包含敏感信息）
+.env
+.env.local
+.env.*.local
+
+# Maven
 target/
-!.mvn/wrapper/maven-wrapper.jar
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE
 .idea/
+*.iws
 *.iml
+*.ipr
+.project
+.classpath
+.settings/
+.vscode/
+*.swp
+*.swo
+*~
+
+# 日志
 *.log
 logs/
-.env
+
+# 操作系统
 .DS_Store
+Thumbs.db
+
+# Nacos 嵌入式数据（dev 环境不要提交）
+scaffold-nacos/data/
+scaffold-nacos/logs/
+
+# MinIO 数据（dev 环境不要提交）
+minio-data/
+
+# Docker
+docker-compose.override.yml
+
+# 临时文件
+*.tmp
+*.bak
+*.orig

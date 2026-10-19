@@ -14,7 +14,7 @@ import java.io.Serial;
 /**
  * 角色实体。
  *
- * @author scaffold
+ *  @author 8800
  */
 @Data
 @NoArgsConstructor
