@@ -1,0 +1,33 @@
+# =============================================================
+# Nacos 配置：scaffold-resource 文件服务
+# =============================================================
+
+spring:
+  application:
+    name: scaffold-resource
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+# MyBatis-Plus 文件服务专用配置
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.scaffold.resource.domain
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+# MinIO 对象存储配置
+oss:
+  minio:
+    enabled: true
+    endpoint: ${MINIO_ENDPOINT:127.0.0.1:9000}
+    domain: ${MINIO_DOMAIN:}
+    bucket-name: ${MINIO_BUCKET:scaffold}
+    prefix: ${MINIO_PREFIX:uploads}
+    access-key: ${MINIO_ACCESS_KEY:admin}
+    secret-key: ${MINIO_SECRET_KEY:admin123}
+    is-https: ${MINIO_IS_HTTPS:N}
+    access-policy: ${MINIO_ACCESS_POLICY:1}
+    region: ${MINIO_REGION:}

@@ -1,0 +1,58 @@
+# =============================================================
+# Nacos 配置：scaffold-system 系统服务
+# =============================================================
+
+spring:
+  application:
+    name: scaffold-system
+
+# ------------------------------
+# Dubbo RPC 配置
+# ------------------------------
+dubbo:
+  application:
+    name: ${spring.application.name}
+    qos-enable: false
+    metadata-type: remote
+  protocol:
+    name: dubbo
+    port: -1
+    payload: 104857600
+    threads: 500
+    accepts: 3000
+  registry:
+    address: nacos://${NACOS_SERVER_ADDR:localhost:8848}
+    group: DUBBO_GROUP
+    username: ${NACOS_USERNAME:nacos}
+    password: ${NACOS_PASSWORD:nacos}
+    parameters:
+      namespace: ${NACOS_NAMESPACE:}
+    timeout: 5000
+    register: true
+    subscribe: true
+  provider:
+    preferred-networks: ${DUBBO_PREFERRED_NETWORKS:}
+  consumer:
+    timeout: 60000
+    check: false
+    retries: 0
+  scan:
+    base-packages: com.scaffold.**.dubbo
+  custom:
+    request-log: true
+    log-level: info
+
+# ------------------------------
+# Redisson 缓存配置
+# ------------------------------
+redisson:
+  key-prefix: ${SPRING_APPLICATION_NAME:}
+  threads: 4
+  nettyThreads: 8
+  singleServerConfig:
+    clientName: ${spring.application.name}
+    connectionMinimumIdleSize: 8
+    connectionPoolSize: 32
+    idleConnectionTimeout: 10000
+    timeout: 3000
+    subscriptionConnectionPoolSize: 50

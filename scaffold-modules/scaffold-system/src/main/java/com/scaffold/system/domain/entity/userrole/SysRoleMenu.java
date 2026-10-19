@@ -3,19 +3,21 @@ package com.scaffold.system.domain.entity.userrole;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.scaffold.common.mybatis.core.domain.BaseEntity;
 
 import java.io.Serial;
+import java.io.Serializable;
 
 /**
- * 角色和菜单关联实体
+ * 角色和菜单关联实体。
+ *
+ * <p>对应表：sys_role_menu</p>
  *
  * @author scaffold
  */
 @Data
 @NoArgsConstructor
 @TableName("sys_role_menu")
-public class SysRoleMenu extends BaseEntity {
+public class SysRoleMenu implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

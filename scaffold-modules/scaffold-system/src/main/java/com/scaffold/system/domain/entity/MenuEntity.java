@@ -58,6 +58,7 @@ public class MenuEntity extends BaseEntity {
     /**
      * 路由参数
      */
+    @TableField("query")
     private String queryParam;
 
     /**

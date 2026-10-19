@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
@@ -79,7 +80,7 @@ public class AuthServiceImpl implements AuthService {
         UserEntity updateUser = new UserEntity();
         updateUser.setUserId(user.getUserId());
         updateUser.setLoginIp(getIp());
-        updateUser.setLoginDate(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        updateUser.setLoginDate(LocalDateTime.now());
         userMapper.updateById(updateUser);
 
         log.info("用户 {} 登录成功，IP: {}", username, getIp());
@@ -146,7 +147,7 @@ public class AuthServiceImpl implements AuthService {
 
         // 登录 IP
         loginUser.setLoginIp(getIp());
-        loginUser.setLoginDate(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        loginUser.setLoginDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
         return loginUser;
     }

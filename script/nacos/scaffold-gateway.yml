@@ -1,0 +1,69 @@
+# =============================================================
+# Nacos 配置：scaffold-gateway 网关服务
+# =============================================================
+
+spring:
+  application:
+    name: scaffold-gateway
+  cloud:
+    gateway:
+      routes:
+        # 认证路由（/auth/** -> scaffold-system）
+        - id: scaffold-system-auth
+          uri: lb://scaffold-system
+          predicates:
+            - Path=/auth/**
+        # 系统业务路由（/system/** -> scaffold-system）
+        - id: scaffold-system-rest
+          uri: lb://scaffold-system
+          predicates:
+            - Path=/system/**
+          filters:
+            - StripPrefix=1
+        # 文件服务路由（/resource/** -> scaffold-resource）
+        - id: scaffold-resource
+          uri: lb://scaffold-resource
+          predicates:
+            - Path=/resource/**
+          filters:
+            - StripPrefix=1
+      # 全局限流全局配置
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOriginPatterns: '*'
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: '*'
+            allowCredentials: true
+            maxAge: 3600
+      # 加载均衡器配置（禁用 Netflix Ribbon）
+      loadbalancer:
+        ribbon:
+          enabled: false
+
+# Dubbo 注册到 Nacos（供 Gateway 服务发现）
+dubbo:
+  application:
+    name: ${spring.application.name}
+    qos-enable: false
+    metadata-type: remote
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    address: nacos://${NACOS_SERVER_ADDR:localhost:8848}
+    group: DUBBO_GROUP
+    username: ${NACOS_USERNAME:nacos}
+    password: ${NACOS_PASSWORD:nacos}
+    parameters:
+      namespace: ${NACOS_NAMESPACE:}
+    timeout: 5000
+    register: false
+    subscribe: true
+  consumer:
+    check: false

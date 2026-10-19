@@ -1,0 +1,31 @@
+# =============================================================
+# Nacos 配置：公共配置
+# 导入方式：Nacos 控制台 -> 配置管理 -> 配置导入 -> 选择此文件
+# =============================================================
+
+# ------------------------------
+# Sa-Token 全局配置
+# ------------------------------
+sa-token:
+  token-name: Authorization
+  timeout: 86400
+  active-timeout: -1
+  is-concurrent: true
+  is-share: false
+  is-read-cookie: false
+  is-read-header: true
+  is-regex: true
+  token-style: uuid
+  is-log: false
+
+# ------------------------------
+# 日志级别配置
+# ------------------------------
+logging:
+  level:
+    root: info
+    com.scaffold: debug
+    com.baomidou.mybatisplus: warn
+    org.springframework: warn
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method,%line] - %msg%n'

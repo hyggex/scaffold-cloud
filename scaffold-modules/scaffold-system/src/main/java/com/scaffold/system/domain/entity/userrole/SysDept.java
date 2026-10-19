@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 部门实体
+ * 部门实体。
+ *
+ * <p>对应表：sys_dept</p>
  *
  * @author scaffold
  */
@@ -29,12 +31,12 @@ public class SysDept extends BaseEntity {
     private Long deptId;
 
     /**
-     * 父部门 ID
+     * 父部门 ID（0=顶级部门）
      */
     private Long parentId;
 
     /**
-     * 祖级列表（逗号分隔）
+     * 祖级列表（格式：0,100,101）
      */
     private String ancestors;
 
@@ -49,14 +51,10 @@ public class SysDept extends BaseEntity {
     private Integer orderNum;
 
     /**
-     * 负责人 ID
+     * 部门负责人用户 ID
      */
-    private Long leader;
-
-    /**
-     * 负责人名称
-     */
-    private String leaderName;
+    @TableField("leader_user_id")
+    private Long leaderUserId;
 
     /**
      * 联系电话
@@ -69,12 +67,12 @@ public class SysDept extends BaseEntity {
     private String email;
 
     /**
-     * 部门状态（0 正常 1 停用）
+     * 部门状态（0=正常 1=停用）
      */
     private String status;
 
     /**
-     * 删除标志（0 存在 1 删除）
+     * 删除标志（0=存在 1=删除）
      */
     @TableLogic
     private String delFlag;

@@ -194,8 +194,9 @@ public class DeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impleme
         vo.setAncestors(dept.getAncestors());
         vo.setDeptName(dept.getDeptName());
         vo.setOrderNum(dept.getOrderNum());
-        vo.setLeader(dept.getLeader());
-        vo.setLeaderName(dept.getLeaderName());
+        vo.setLeader(dept.getLeaderUserId());
+        // leaderName 需单独查询用户表获取，此处设为 null
+        vo.setLeaderName(null);
         vo.setPhone(dept.getPhone());
         vo.setEmail(dept.getEmail());
         vo.setStatus(dept.getStatus());
