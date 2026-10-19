@@ -1,0 +1,67 @@
+# ================================================================
+# scaffold-gateway 网关配置
+# 生产环境建议将公共配置放入 Nacos，通过 spring.config.import 加载
+# ================================================================
+server:
+  port: 8080
+
+spring:
+  application:
+    name: scaffold-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
+        namespace: ${NACOS_NAMESPACE:}
+        username: ${NACOS_USERNAME:nacos}
+        password: ${NACOS_PASSWORD:nacos}
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace:}
+    gateway:
+      routes:
+        # 认证路由（保留原始路径 /auth/** -> scaffold-system /auth/**）
+        - id: scaffold-system-auth
+          uri: lb://scaffold-system
+          predicates:
+            - Path=/auth/**
+        # 业务接口路由（StripPrefix=1 去掉 /system 前缀）
+        - id: scaffold-system-rest
+          uri: lb://scaffold-system
+          predicates:
+            - Path=/system/**
+          filters:
+            - StripPrefix=1
+        # 文件服务路由（StripPrefix=1 去掉 /resource 前缀）
+        - id: scaffold-resource
+          uri: lb://scaffold-resource
+          predicates:
+            - Path=/resource/**
+          filters:
+            - StripPrefix=1
+      # 加载均衡器配置
+      loadbalancer:
+        ribbon:
+          enabled: false
+
+# Dubbo 配置（注册到 Nacos，供 Gateway 服务发现）
+dubbo:
+  application:
+    name: ${spring.application.name}
+    qos-enable: false
+    metadata-type: remote
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    address: nacos://${spring.cloud.nacos.discovery.server-addr}
+    group: DUBBO_GROUP
+    username: ${spring.cloud.nacos.discovery.username}
+    password: ${spring.cloud.nacos.discovery.password}
+    parameters:
+      namespace: ${spring.cloud.nacos.discovery.namespace:}
+    timeout: 5000
+    register: true
+    subscribe: true
+  consumer:
+    check: false

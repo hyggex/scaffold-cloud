@@ -1,0 +1,20 @@
+# Dubbo 默认配置（不允许直接修改，如需修改请在 Nacos 上创建相同配置覆盖）
+dubbo:
+  application:
+    logger: slf4j
+    metadataType: remote
+    register-mode: instance
+    service-discovery:
+      migration: FORCE_APPLICATION
+  registry:
+    address: nacos://${spring.cloud.nacos.server-addr}
+    group: DUBBO_GROUP
+    username: ${spring.cloud.nacos.username:nacos}
+    password: ${spring.cloud.nacos.password:nacos}
+    parameters:
+      namespace: ${spring.profiles.active}
+  consumer:
+    cache: false
+    validation: jvalidationNew
+    retries: 0
+    check: false

@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- scaffold 公共能力聚合模块 -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"><modelVersion>4.0.0</modelVersion><parent><groupId>com.scaffold</groupId><artifactId>scaffold</artifactId><version>1.0.0-SNAPSHOT</version></parent><artifactId>scaffold-common</artifactId><packaging>pom</packaging><modules><module>scaffold-common-core</module><module>scaffold-common-web</module><module>scaffold-common-mybatis</module><module>scaffold-common-security</module><module>scaffold-common-redis</module><module>scaffold-common-dubbo</module><module>scaffold-common-oss</module><module>scaffold-common-json</module><module>scaffold-common-log</module></modules></project>

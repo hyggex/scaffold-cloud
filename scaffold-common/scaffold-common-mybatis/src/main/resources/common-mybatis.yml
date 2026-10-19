@@ -1,0 +1,39 @@
+# ================================================================
+# MyBatis Plus 公共配置
+# ================================================================
+mybatis-plus:
+  # Mapper XML 路径（默认不检查，XML 放 resources/mapper 下）
+  mapperPackage: com.scaffold.**.mapper
+  # Mapper XML 文件位置
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+  # 类型别名包扫描路径
+  typeAliasesPackage: com.scaffold.**.domain
+  # 检查 Mapper XML 文件是否存在（生产建议 false）
+  checkConfigLocation: false
+
+  configuration:
+    # 下划线自动映射为驼峰
+    mapUnderscoreToCamelCase: true
+    # 自动映射行为：FULL 启用所有自动映射
+    autoMappingBehavior: FULL
+    # 未知列处理策略：NONE 不处理
+    autoMappingUnknownColumnBehavior: NONE
+    # 日志实现（生产建议 NoLoggingImpl，性能更优）
+    logImpl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+
+  global-config:
+    # 关闭 Logo banner 输出
+    banner: false
+    dbConfig:
+      # 主键策略：雪花ID（ASSIGN_ID）
+      idType: ASSIGN_ID
+      # 逻辑删除值
+      logicDeleteValue: 1
+      # 逻辑未删除值
+      logicNotDeleteValue: 0
+      # 插入时字段策略：NOT_NULL（不为 null 的字段才插入）
+      insertStrategy: NOT_NULL
+      # 更新时字段策略：NOT_NULL（不为 null 的字段才更新）
+      updateStrategy: NOT_NULL
+      # WHERE 字段策略：NOT_NULL（查询条件不为 null 的字段才加入 WHERE）
+      whereStrategy: NOT_NULL

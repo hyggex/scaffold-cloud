@@ -1,0 +1,76 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: scaffold-resource
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
+        namespace: ${NACOS_NAMESPACE:}
+        username: ${NACOS_USERNAME:nacos}
+        password: ${NACOS_PASSWORD:nacos}
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+  # 数据源配置（需配合 Nacos 或本地 bootstrap.yml）
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:scaffold}?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:root123}
+
+  # Redis 配置
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      database: 0
+
+# MyBatis-Plus 配置
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.scaffold.resource.domain
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+  global-config:
+    db-config:
+      id-type: assign_id
+      logic-delete-field: delFlag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# Sa-Token 配置
+sa-token:
+  token-name: Authorization
+  timeout: 86400
+  active-timeout: -1
+  is-concurrent: true
+  is-share: false
+  token-style: uuid
+  is-log: false
+
+# MinIO 对象存储配置
+oss:
+  minio:
+    enabled: true
+    endpoint: ${MINIO_ENDPOINT:127.0.0.1:9000}
+    domain: ${MINIO_DOMAIN:}
+    bucket-name: ${MINIO_BUCKET:scaffold}
+    prefix: ${MINIO_PREFIX:uploads}
+    access-key: ${MINIO_ACCESS_KEY:admin}
+    secret-key: ${MINIO_SECRET_KEY:admin123}
+    is-https: ${MINIO_IS_HTTPS:N}
+    access-policy: ${MINIO_ACCESS_POLICY:1}
+    region: ${MINIO_REGION:}
+
+# 日志配置
+logging:
+  level:
+    com.scaffold: info
+    com.baomidou.mybatisplus: warn

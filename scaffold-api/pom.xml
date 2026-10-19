@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- scaffold 跨服务接口契约聚合模块 -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"><modelVersion>4.0.0</modelVersion><parent><groupId>com.scaffold</groupId><artifactId>scaffold</artifactId><version>1.0.0-SNAPSHOT</version></parent><artifactId>scaffold-api</artifactId><packaging>pom</packaging><modules><module>scaffold-api-system</module></modules></project>

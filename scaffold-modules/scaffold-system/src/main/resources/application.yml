@@ -1,0 +1,122 @@
+# ================================================================
+# scaffold-system 系统服务配置
+# 生产环境建议将公共配置放入 Nacos，通过 spring.config.import 加载
+# ================================================================
+server:
+  port: 9201
+  undertow:
+    max-http-post-size: -1
+    buffer-size: 512
+    direct-buffers: true
+    threads:
+      io: 8
+      worker: 256
+
+spring:
+  application:
+    name: scaffold-system
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
+        namespace: ${NACOS_NAMESPACE:}
+        username: ${NACOS_USERNAME:nacos}
+        password: ${NACOS_PASSWORD:nacos}
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace:}
+        username: ${spring.cloud.nacos.discovery.username:}
+        password: ${spring.cloud.nacos.discovery.password:}
+  config:
+    import:
+      - optional:nacos:application-common.yml
+      - optional:nacos:datasource.yml
+      - optional:nacos:scaffold-system.yml
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:scaffold}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:123456}
+      database: ${REDIS_DB:0}
+      timeout: 10000
+      ssl:
+        enabled: false
+
+# MyBatis-Plus 配置
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  type-aliases-package: com.scaffold.**.domain.entity
+  global-config:
+    db-config:
+      id-type: assign_id
+      logic-delete-field: delFlag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      db-type: mysql
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+
+# Sa-Token 配置
+sa-token:
+  token-name: Authorization
+  is-concurrent: true
+  is-share: false
+  timeout: 86400
+  active-timeout: -1
+  is-regex: true
+  is-read-cookie: false
+  is-read-header: true
+
+# Dubbo 配置（注册到 Nacos）
+dubbo:
+  application:
+    name: ${spring.application.name}
+    qos-enable: false
+    metadata-type: remote
+  protocol:
+    name: dubbo
+    port: -1
+    payload: 104857600
+    threads: 500
+    accepts: 3000
+    host: ${spring.cloud.client.ip-address}
+  registry:
+    address: nacos://${spring.cloud.nacos.discovery.server-addr}
+    group: DUBBO_GROUP
+    username: ${spring.cloud.nacos.discovery.username}
+    password: ${spring.cloud.nacos.discovery.password}
+    parameters:
+      namespace: ${spring.cloud.nacos.discovery.namespace:}
+    timeout: 5000
+    register: true
+    subscribe: true
+  provider:
+    preferred-networks: ${DUBBO_PREFERRED_NETWORKS:}
+  consumer:
+    timeout: 60000
+    check: false
+    retries: 0
+  scan:
+    base-packages: com.scaffold.**.dubbo
+  custom:
+    request-log: true
+    log-level: info
+
+# Redisson 配置
+redisson:
+  key-prefix: ${SPRING_APPLICATION_NAME:}
+  threads: 4
+  nettyThreads: 8
+  singleServerConfig:
+    clientName: ${spring.application.name}
+    connectionMinimumIdleSize: 8
+    connectionPoolSize: 32
+    idleConnectionTimeout: 10000
+    timeout: 3000
+    subscriptionConnectionPoolSize: 50
